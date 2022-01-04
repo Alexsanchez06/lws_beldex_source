@@ -221,6 +221,13 @@ namespace cryptonote
     uint64_t burn_percent = 0; // 123 = 1.23x base fee.
   };
 
+   struct tx_block_template_backlog_entry
+  {
+    crypto::hash id;
+    uint64_t weight;
+    uint64_t fee;
+  };
+
   //---------------------------------------------------------------
   crypto::public_key get_destination_view_key_pub(const std::vector<tx_destination_entry> &destinations, const std::optional<cryptonote::tx_destination_entry>& change_addr);
   bool construct_tx(const account_keys& sender_account_keys, std::vector<tx_source_entry> &sources, const std::vector<tx_destination_entry>& destinations, const std::optional<cryptonote::tx_destination_entry>& change_addr, const std::vector<uint8_t> &extra, transaction& tx, uint64_t unlock_time, const beldex_construct_tx_params &tx_params = {});

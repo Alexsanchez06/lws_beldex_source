@@ -29,7 +29,8 @@
 
 # Nothing to do here: serialization code is completely header-only.
 set(serialization_sources
- base.h
+   json_object.cpp
+   base.h
    binary_archive.h
    binary_utils.h
    boost_std_variant.h
@@ -44,10 +45,12 @@ set(serialization_sources
    string.h
    unordered_set.h
    variant.h
-   vector.h)
+   vector.h
+   )
 
 set(serialization_private_headers
 json_archive.h
+json_object.h
 json_utils.h)
 
 add_library(serialization

@@ -288,7 +288,7 @@ namespace rct {
         void serialize_rctsig_base(Archive &ar, size_t inputs, size_t outputs)
         {
             field_varint(ar, "type", type);
-            if (type == RCTType::Null)
+            if (type == rct::RCTType::Null)
                 return;
             if (!tools::equals_any(type, RCTType::Full, RCTType::Simple, RCTType::Bulletproof, RCTType::Bulletproof2, RCTType::CLSAG))
                 throw std::invalid_argument{"invalid ringct type"};

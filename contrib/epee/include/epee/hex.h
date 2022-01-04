@@ -34,6 +34,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <boost/utility/string_ref.hpp>
 
 #include "wipeable_string.h"
 #include "span.h"
@@ -46,10 +47,11 @@ namespace epee
     static std::string string(const span<const std::uint8_t> src);
     //! \return A epee::wipeable_string containing hex of `src`.
     static epee::wipeable_string wipeable_string(const span<const std::uint8_t> src);
-    template<typename T> static epee::wipeable_string wipeable_string(const T &pod) { return wipeable_string(span<const uint8_t>((const uint8_t*)&pod, sizeof(pod))); }
+    template <typename T>
+    static epee::wipeable_string wipeable_string(const T &pod) { return wipeable_string(span<const uint8_t>((const uint8_t *)&pod, sizeof(pod))); }
 
     //! \return An array containing hex of `src`.
-    template<std::size_t N>
+    template <std::size_t N>
     static std::array<char, N * 2> array(const std::array<std::uint8_t, N>& src) noexcept
     {
       std::array<char, N * 2> out{{}};
@@ -59,18 +61,20 @@ namespace epee
     }
 
     //! Append `src` as hex to `out`.
-    static void buffer(std::ostream& out, const span<const std::uint8_t> src);
+    static void buffer(std::ostream &out, const span<const std::uint8_t> src);
 
   private:
-    template<typename T> T static convert(const span<const std::uint8_t> src);
+    template <typename T>
+    T static convert(const span<const std::uint8_t> src);
 
     //! Write `src` bytes as hex to `out`. `out` must be twice the length
-    static void buffer_unchecked(char* out, const span<const std::uint8_t> src) noexcept;
+    static void buffer_unchecked(char *out, const span<const std::uint8_t> src) noexcept;
   };
 
   struct from_hex
   {
-      //! \return An std::vector of unsigned integers from the `src`
-      static std::vector<uint8_t> vector(std::string_view src);
+    //! \return An std::vector of unsigned integers from the `src`
+    static std::vector<uint8_t> vector(std::string_view src);
+    static bool to_buffer(span<std::uint8_t> out, boost::string_ref src) noexcept;
   };
 }
