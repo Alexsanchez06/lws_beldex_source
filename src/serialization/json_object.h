@@ -123,20 +123,20 @@ inline constexpr bool is_to_hex()
 void read_hex(const rapidjson::Value& val, epee::span<std::uint8_t> dest);
 
 // POD to json key
-// template <class Type>
-// inline typename std::enable_if<is_to_hex<Type>()>::type toJsonKey(rapidjson::Writer<epee::byte_stream>& dest, const Type& pod)
-// {
-//   const auto hex = epee::to_hex::array(pod);
-//   dest.Key(hex.data(), hex.size());
-// }
+template <class Type>
+inline typename std::enable_if<is_to_hex<Type>()>::type toJsonKey(rapidjson::Writer<epee::byte_stream>& dest, const Type& pod)
+{
+  const auto hex = epee::to_hex::array(pod);
+  dest.Key(hex.data(), hex.size());
+}
 
-// // POD to json value
-// template <class Type>
-// inline typename std::enable_if<is_to_hex<Type>()>::type toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, const Type& pod)
-// {
-//   const auto hex = epee::to_hex::array(pod);
-//   dest.String(hex.data(), hex.size());
-// }
+// POD to json value
+template <class Type>
+inline typename std::enable_if<is_to_hex<Type>()>::type toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, const Type& pod)
+{
+  const auto hex = epee::to_hex::array(pod);
+  dest.String(hex.data(), hex.size());
+}
 
 template <class Type>
 inline typename std::enable_if<is_to_hex<Type>()>::type fromJsonValue(const rapidjson::Value& val, Type& t)
@@ -148,6 +148,8 @@ inline typename std::enable_if<is_to_hex<Type>()>::type fromJsonValue(const rapi
 void toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, const rapidjson::Value& src);
 
 void toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, boost::string_ref i);
+
+
 inline void toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, const std::string& i)
 {
   toJsonValue(dest, boost::string_ref{i});

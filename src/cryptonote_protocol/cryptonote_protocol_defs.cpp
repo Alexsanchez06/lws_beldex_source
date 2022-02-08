@@ -11,6 +11,7 @@ KV_SERIALIZE_MAP_CODE_BEGIN(connection_info)
   KV_SERIALIZE(ip)
   KV_SERIALIZE(port)
   KV_SERIALIZE(rpc_port)
+  KV_SERIALIZE(rpc_credits_per_hash)
   KV_SERIALIZE(peer_id)
   KV_SERIALIZE(recv_count)
   uint64_t recv_idle_time, send_idle_time, live_time;

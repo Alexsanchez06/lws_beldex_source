@@ -361,7 +361,7 @@ void toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, const cryptonote::t
       INSERT_INTO_JSON_OBJECT(dest, to_scripthash, input);
     }
   };
-  boost::apply_visitor(add_input{dest}, txin);
+  // boost::apply_visitor(add_input{dest}, txin);
   dest.EndObject();
 }
 
@@ -586,7 +586,7 @@ void toJsonValue(rapidjson::Writer<epee::byte_stream>& dest, const cryptonote::t
       INSERT_INTO_JSON_OBJECT(dest, to_scripthash, output);
     }
   };
-  boost::apply_visitor(add_output{dest}, txout.target);
+  // boost::apply_visitor(add_output{dest}, txout.target);
    dest.EndObject();
 }
 

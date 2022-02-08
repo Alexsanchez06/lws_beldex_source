@@ -64,6 +64,7 @@ namespace cryptonote
     std::string ip;
     std::string port;
     uint16_t rpc_port;
+    uint32_t rpc_credits_per_hash;
 
     std::string peer_id;
 

@@ -38,6 +38,7 @@
 
 #include "wipeable_string.h"
 #include "span.h"
+#include "storages/parserse_base_utils.h"
 
 namespace epee
 {
@@ -50,12 +51,22 @@ namespace epee
     template<typename T> static epee::wipeable_string wipeable_string(const T &pod) { return wipeable_string(span<const uint8_t>((const uint8_t*)&pod, sizeof(pod))); }
 
     //! \return An array containing hex of `src`.
-    template<std::size_t N>
-    static std::array<char, N * 2> array(const std::array<std::uint8_t, N>& src)
+    // template<std::size_t N>
+    // static std::array<char, N * 2> array(const std::array<std::uint8_t, N>& src)
+    // {
+    //   std::array<char, N * 2> out{{}};
+    //   static_assert(N <= 128, "keep the stack size down");
+    //   buffer_unchecked(out.data(), {src.data(), src.size()});
+    //   return out;
+    // }
+    
+    //below function copy from monero
+    template<typename T>
+    static std::array<char, sizeof(T) * 2> array(const T& src) noexcept
     {
-      std::array<char, N * 2> out{{}};
-      static_assert(N <= 128, "keep the stack size down");
-      buffer_unchecked(out.data(), {src.data(), src.size()});
+      std::array<char, sizeof(T) * 2> out;
+      static_assert(sizeof(T) <= 128, "keep the stack size down");
+      buffer_unchecked(out.data(), as_byte_span(src));
       return out;
     }
 
@@ -73,8 +84,10 @@ namespace epee
   {
       //! \return An std::vector of unsigned integers from the `src`
       static std::vector<uint8_t> vector(std::string_view src);
+      static bool to_string(std::string_view out, std::string_view src);
 
       static bool to_buffer(span<std::uint8_t> out, boost::string_ref src) noexcept;
-
+  private:
+    static bool to_buffer_unchecked(std::uint8_t* out, boost::string_ref src) noexcept;
   };
 }

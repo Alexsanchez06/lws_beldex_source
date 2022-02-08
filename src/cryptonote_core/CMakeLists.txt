@@ -27,21 +27,33 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+set(cryptonote_core_sources
+blockchain.cpp
+cryptonote_core.cpp
+master_node_rules.cpp
+master_node_list.cpp
+master_node_voting.cpp
+master_node_quorum_cop.cpp
+master_node_swarm.cpp
+tx_flash.cpp
+beldex_name_system.cpp
+tx_pool.cpp
+tx_sanity_check.cpp
+cryptonote_tx_utils.cpp
+pos.cpp
+uptime_proof.cpp)
+
+set(cryptonote_core_private_headers
+  blockchain.h
+  cryptonote_core.h
+  tx_pool.h
+  tx_sanity_check.h
+  cryptonote_tx_utils.h) 
+
 add_library(cryptonote_core
-  blockchain.cpp
-  cryptonote_core.cpp
-  master_node_rules.cpp
-  master_node_list.cpp
-  master_node_voting.cpp
-  master_node_quorum_cop.cpp
-  master_node_swarm.cpp
-  tx_flash.cpp
-  beldex_name_system.cpp
-  tx_pool.cpp
-  tx_sanity_check.cpp
-  cryptonote_tx_utils.cpp
-  pos.cpp
-  uptime_proof.cpp)
+${cryptonote_core_sources}
+${cryptonote_core_private_headers}
+  )
 
 target_link_libraries(cryptonote_core
   PUBLIC

@@ -44,11 +44,15 @@ set(serialization_sources
    string.h
    unordered_set.h
    variant.h
-   vector.h)
+   vector.h
+   json_object.cpp
+   )
 
 set(serialization_private_headers
 json_archive.h
-json_utils.h)
+json_utils.h
+json_object.h
+)
 
 add_library(serialization
   ${serialization_sources}

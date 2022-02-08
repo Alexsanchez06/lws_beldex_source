@@ -95,3 +95,54 @@ add_subdirectory(device)
 add_subdirectory(device_trezor)
 
 
+######################################
+######################################
+
+
+add_library(merged merged.dummy.cpp)
+
+target_link_libraries(merged PUBLIC
+            # wallet_api
+            daemon_messages
+            serialization
+            lmdb_lib
+            cryptonote_format_utils
+            hardfork
+            wallet
+            multisig
+            cryptonote_core
+            cryptonote_basic
+            cryptonote_protocol
+            mnemonics
+            common
+            cncrypto
+            device
+            ringct
+            ringct_basic
+            checkpoints
+            version
+            net
+            device_trezor
+            epee
+            blockchain_db
+            rpc_http_client
+            rpc_commands
+
+            # Static deps:
+            Boost::program_options Boost::serialization Boost::system Boost::thread
+            # zlib
+            OpenSSL::SSL OpenSSL::Crypto
+            # expat
+            # unbound
+            # sqlite3
+            ${merged_protobuf}
+            # sodium
+            # libzmq
+            # CURL::libcurl
+            oxenmq::oxenmq
+            lmdb
+            easylogging
+            randomx
+            uSockets
+            cpr
+            )

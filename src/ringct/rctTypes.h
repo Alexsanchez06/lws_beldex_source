@@ -44,7 +44,13 @@ extern "C" {
 #include "crypto/crypto.h"
 
 #include "epee/hex.h"
+#include "epee/span.h"
+#include "epee/memwipe.h"
 #include "serialization/variant.h"
+// #include "serialization/containers.h"
+// #include "serialization/debug_archive.h"
+#include "serialization/binary_archive.h"
+#include "serialization/json_archive.h"
 #include "common/util.h"
 
 

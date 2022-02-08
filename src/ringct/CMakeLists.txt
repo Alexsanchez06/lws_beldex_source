@@ -27,16 +27,30 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-add_library(ringct_basic
+
+
+  set(ringct_basic_sources
   rctOps.cpp
   rctTypes.cpp
   rctCryptoOps.c
   multiexp.cc
   bulletproofs.cc)
 
+  set(ringct_basic_private_headers
+  rctOps.h
+  rctTypes.h
+  multiexp.h
+  bulletproofs.h)  
+
+  add_library(ringct_basic
+  ${ringct_basic_sources}
+  ${ringct_basic_private_headers}
+  )
+
 target_link_libraries(ringct_basic
   PUBLIC
     common
+    cncrypto
   PRIVATE
     OpenSSL::SSL
     OpenSSL::Crypto
