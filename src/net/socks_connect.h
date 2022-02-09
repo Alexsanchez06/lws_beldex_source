@@ -1,4 +1,4 @@
-// Copyright (c) 2019, The Monero Project
+// Copyright (c) 2019-2020, The Monero Project
 //
 // All rights reserved.
 //
@@ -28,47 +28,28 @@
 
 #pragma once
 
-#include <string_view>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/utility/string_ref.hpp>
-#include <cstdint>
-
-#include "common/expect.h"
-#include "epee/net/net_utils_base.h"
+#include <boost/asio/steady_timer.hpp>
+#include <boost/thread/future.hpp>
+#include <string>
 
 namespace net
 {
-    std::pair<std::string_view, std::string_view> get_network_address_host_and_port(const std::string_view address);
+namespace socks
+{
+    //! Primarily for use with `epee::net_utils::http_client`.
+    struct connector
+    {
+        boost::asio::ip::tcp::endpoint proxy_address;
 
-    /*!
-      Identifies onion, i2p and IPv4 addresses and returns them as a generic
-      `network_address`. If the type is unsupported, it might be a hostname,
-      and `error() == net::error::kUnsupportedAddress` is returned.
+        /*! Creates a new socket, asynchronously connects to `proxy_address`,
+            and requests a connection to `remote_host` on `remote_port`. Sets
+            socket as closed if `timeout` is reached.
 
-      \param address An onion address, i2p address, ipv4 address or hostname. Hostname
-          will return an error.
-      \param default_port If `address` does not specify a port, this value
-          will be used.
-
-      \return A tor or IPv4 address, else error.
-    */
-    expect<epee::net_utils::network_address>
-        get_network_address(std::string_view address, std::uint16_t default_port);
-
-    /*!
-      Identifies an IPv4 subnet in CIDR notatioa and returns it as a generic
-      `network_address`. If the type is unsupported, it might be a hostname,
-      and `error() == net::error::kUnsupportedAddress` is returned.
-
-      \param address An ipv4 address.
-      \param allow_implicit_32 whether to accept "raw" IPv4 addresses, with CIDR notation
-
-      \return A tor or IPv4 address, else error.
-    */
-    expect<epee::net_utils::ipv4_network_subnet>
-        get_ipv4_subnet_address(std::string_view address, bool allow_implicit_32 = false);
-
-    expect<boost::asio::ip::tcp::endpoint> get_tcp_endpoint(const boost::string_ref address);
-     
-}
-
+            \return The socket if successful, and exception in the future with
+                error otherwise. */
+        boost::unique_future<boost::asio::ip::tcp::socket>
+            operator()(const std::string& remote_host, const std::string& remote_port, boost::asio::steady_timer& timeout) const;
+    };
+} // socks
+} // net

@@ -29,14 +29,18 @@
 add_library(net
   dandelionpp.cpp
   error.cpp
+  http.cpp
   i2p_address.cpp
   parse.cpp
   socks.cpp
+  socks_connect.cpp
   tor_address.cpp
   epee_network_address_hack.cpp
+  zmq.cpp
   )
 target_link_libraries(net PRIVATE
   common
   epee
   extra
+  ${ZMQ_LIB}
   )

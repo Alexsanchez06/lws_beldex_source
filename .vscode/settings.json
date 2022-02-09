@@ -78,6 +78,7 @@
         "numbers": "cpp",
         "stop_token": "cpp",
         "semaphore": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "crypto_verify_32.h": "c"
     }
 }
